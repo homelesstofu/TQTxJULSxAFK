@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Archive</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fcf8f8;
+            color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* SCREEN 1: MAIN GREETINGS ARCHIVE CANVAS */
+        .desktop-canvas {
+            display: flex; 
+            width: 900px;
+            height: 550px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            align-items: center;
+            padding: 40px;
+            gap: 60px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .polaroid-wrapper {
+            width: 45%;
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .polaroid-card {
+            width: 320px;
+            height: 380px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .polaroid-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .polaroid-front, .polaroid-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 2px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+            box-sizing: border-box;
+        }
+
+        .polaroid-front {
+            padding: 16px 16px 50px 16px;
+            transform: rotate(-1deg);
+        }
+
+        .polaroid-photo-space {
+            width: 100%;
+            height: 100%;
+            background: #fafafa;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .polaroid-photo-space img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.2s ease;
+        }
+
+        .polaroid-caption {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.85rem;
+            color: #777;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .polaroid-back {
+            transform: rotateY(180deg);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fdfdfd;
+            background-image: radial-gradient(#e5e5e5 0.5px, transparent 0.5px), radial-gradient(#e5e5e5 0.5px, #fdfdfd 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .secret-heading {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #aa8888;
+            margin-bottom: 15px;
+        }
+
+        .secret-text {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #444;
+            text-align: center;
+        }
+
+        .hint-text {
+            position: absolute;
+            bottom: 12px;
+            font-size: 0.7rem;
+            color: #bbb;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .content-panel {
+            width: 55%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .meta-header h1 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            color: #111;
+        }
+
+        .meta-header .date-stamp {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+        }
+
+        .message-viewport {
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        p#sweet-message {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #333;
+            transition: opacity 0.2s ease;
+            font-weight: 300;
+        }
+
+        .navigation-dock {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eeeeee;
+            padding-top: 20px;
+        }
+
+        .counter {
+            font-size: 0.85rem;
+            color: #999;
+            font-family: monospace;
+        }
+
+        .action-link {
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #111;
+            cursor: pointer;
+            padding: 5px 0;
+            letter-spacing: 0.5px;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .action-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(1);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #111;
+            transform-origin: bottom left;
+            transition: transform 0.25s ease-out;
+        }
+
+        .action-link:hover::after {
+            transform: scaleX(0);
+            transform-origin: bottom right;
+        }
+
+        /* SCREEN 2: THE INTERACTIVE PRANK WINDOW */
+        .prank-canvas {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #fcf8f8;
+            padding: 20px;
+        }
+
+        .prank-title {
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
+            color: #111;
+        }
+
+        /* Runaway Box Styling */
+        .gift-target-box {
+            font-size: 5rem;
+            cursor: pointer;
+            position: absolute;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        /* Standard Minimal Dialog Prompt Boxes */
+        .dialog-container {
+            display: none;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid #eaeaea;
+            max-width: 400px;
+            width: 90%;
+            flex-direction: column;
+            align-items: center;
+            animation: dialogPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+        }
+
+        .dialog-text {
+            font-size: 1.05rem;
+            color: #222;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .dialog-btn-row {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .dialog-btn {
+            background: #111111;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s ease;
+            min-width: 90px;
+        }
+
+        .dialog-btn:hover {
+            background: #333333;
+        }
+
+        .dialog-btn.alt {
+            background: #fafafa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .dialog-btn.alt:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        /* FINAL UNLOCKED SCREEN MAP */
+        .reveal-canvas {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .reveal-emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            to { transform: scale(1.1); }
+        }
+
+        .gift-ticket {
+            border: 1px dashed #ccc;
+            padding: 18px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            margin-top: 15px;
+        }
+
+        .ticket-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+        }
+
+        .ticket-code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: #111;
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 4px;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        @keyframes dialogPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="desktop-canvas" id="main-content">
+        <div class="polaroid-wrapper">
+            <div class="polaroid-card" id="polaroid-card" onclick="flipPolaroid()">
+                <div class="polaroid-front">
+                    <div class="polaroid-photo-space">
+                        <img id="display-photo" src="" alt="Birthday Memory Layout">
+                    </div>
+                    <div id="polaroid-caption" class="polaroid-caption">TAP TO FLIP</div>
+                </div>
+                <div class="polaroid-back">
+                    <div class="secret-heading">Secret Note</div>
+                    <div id="secret-message" class="secret-text">Loading...</div>
+                    <div class="hint-text">Click to flip back</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-panel">
+            <div class="meta-header">
+                <div class="date-stamp">Special Edition</div>
+                <h1 id="celebrant-title">Happy Birthday</h1>
+            </div>
+            <div class="message-viewport">
+                <p id="sweet-message">Loading archive...</p>
+            </div>
+            <div class="navigation-dock" id="nav-dock">
+                <div class="counter" id="progress-counter">00 / 00</div>
+                <button class="action-link" id="action-btn" onclick="advanceStream()">Next Greeting &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="prank-canvas" id="prank-screen">
+        <h2 class="prank-title" id="prank-instruction">Click the gift box to claim your birthday surprise!</h2>
+        
+        <div class="gift-target-box" id="gift-box" onclick="handleBoxClick()">🎁</div>
+
+        <div class="dialog-container" id="dialog-prompt">
+            <div class="dialog-text" id="dialog-question">Would you like to open your birthday gift box?</div>
+            <div class="dialog-btn-row">
+                <button class="dialog-btn" id="btn-yes" onclick="processPrankChoice(true)">Yes</button>
+                <button class="dialog-btn alt" id="btn-no" onclick="processPrankChoice(false)">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="reveal-canvas" id="reveal-screen">
+        <div class="reveal-emoji">🎉</div>
+        <h1 style="font-weight: 400; font-size: 1.8rem; margin-bottom: 5px;">Surprise Unlocked!</h1>
+        <p style="color: #666; font-size: 0.95rem; margin-bottom: 20px;">Here is your official birthday surprise code:</p>
+        <div class="gift-ticket">
+            <div class="ticket-label">Access Voucher</div>
+            <div class="ticket-code" id="gift-code">CODE</div>
+        </div>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <script>
+        const profiles = {
+            nay: {
+                title: "For Nay.",
+                giftCode: "SPECIAL-SURPRISE-2026",
+                stream: [
+                    {
+                        message: "Hello, Nay, etc., etc., etc., etc. from zxy",
+                        caption: "From ZXY • (Tap to flip)",
+                        photo: "zxy.png", 
+                        secretNote: "Wishing you all the best for your future endeavor."
+                    },
+                    {
+                        message: "Type Savv's greeting message here...",
+                        caption: "From Savv • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500", 
+                        secretNote: "Type Savv's secret note here..."
+                    },
+                    {
+                        message: "Type Echidna's greeting message here...",
+                        caption: "From Echidna • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
+                        secretNote: "Type Echidna's secret note here..."
+                    },
+                    {
+                        message: "Type Raze's greeting message here...",
+                        caption: "From Raze • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
+                        secretNote: "Type Raze's secret note here..."
+                    },
+                    {
+                        message: "Type Renzy's greeting message here...",
+                        caption: "From Renzy • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
+                        secretNote: "Type Renzy's secret note here..."
+                    },
+                    {
+                        message: "Type Biggy's greeting message here...",
+                        caption: "From Biggy • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
+                        secretNote: "Type Biggy's secret note here..."
+                    },
+                    {
+                        message: "Type Avocad's greeting message here...",
+                        caption: "From Avocad • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
+                        secretNote: "Type Avocad's secret note here..."
+                    },
+                    {
+                        message: "Type Tenie's greeting message here...",
+                        caption: "From Tenie • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
+                        secretNote: "Type Tenie's secret note here..."
+                    },
+                    {
+                        message: "Type Lia's greeting message here...",
+                        caption: "From Lia • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
+                        secretNote: "Type Lia's secret note here..."
+                    },
+                    {
+                        message: "Type Zelduh's greeting message here...",
+                        caption: "From Zelduh • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
+                        secretNote: "Type Zelduh's secret note here..."
+                    },
+                    {
+                        message: "Type Ron's greeting message here...",
+                        caption: "From Ron • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
+                        secretNote: "Type Ron's secret note here..."
+                    },
+                    {
+                        message: "Type Elle's greeting message here...",
+                        caption: "From Elle • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
+                        secretNote: "Type Elle's secret note here..."
+                    },
+                    {
+                        message: "Type Sai's greeting message here...",
+                        caption: "From Sai • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
+                        secretNote: "Type Sai's secret note here..."
+                    },
+                    {
+                        message: "Type Miles's greeting message here...",
+                        caption: "From Miles • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
+                        secretNote: "Type Miles's secret note here..."
+                    },
+                    {
+                        message: "Type Tiney's greeting message here...",
+                        caption: "From Tiney • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
+                        secretNote: "Type Tiney's secret note here..."
+                    },
+                    {
+                        message: "Type Sash's greeting message here...",
+                        caption: "From Sash • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
+                        secretNote: "Type Sash's secret note here..."
+                    },
+                    {
+                        message: "Type Celes's greeting message here...",
+                        caption: "From Celes • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
+                        secretNote: "Type Celes's secret note here..."
+                    },
+                    {
+                        message: "Type Yel's greeting message here...",
+                        caption: "From Yel • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
+                        secretNote: "Type Yel's secret note here..."
+                    },
+                    {
+                        message: "Type Star's greeting message here...",
+                        caption: "From Star • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
+                        secretNote: "Type Star's secret note here..."
+                    },
+                    {
+                        message: "Happy Birthday from Nathem! Hope you have an awesome celebration and an amazing year ahead.",
+                        caption: "From Nathem • (Tap to flip)",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500", 
+                        secretNote: "Enjoy your special gift box at the end!"
+                    }
+                ]
+            }
+        };
+
+        let activeProfile;
+        let activeIndex = 0;
+        let boxClickCount = 0;
+        let currentPromptStep = 0;
+
+        // Sequence steps array for text loops
+        const prankQuestions = [
+            "Would you like to open your birthday gift box? 🎁",
+            "Are you absolutely sure you want to open it right now? 🤔",
+            "Like... 100% sure? No turning back? 🕵️‍♀️",
+            "Wait, are you REALLY sure though? Last chance to change your mind! 👀",
+            "Okay okay, processing... click one more time to finally unlock it! ✨"
+        ];
+
+        function initializeView() {
+            activeProfile = profiles['nay'];
+            if (activeProfile) {
+                document.getElementById('celebrant-title').innerText = activeProfile.title;
+                renderEntry();
+            }
+        }
+
+        function renderEntry() {
+            const activeData = activeProfile.stream[activeIndex];
+            const textDisplay = document.getElementById('sweet-message');
+            const photoDisplay = document.getElementById('display-photo');
+            const captionDisplay = document.getElementById('polaroid-caption');
+            const secretDisplay = document.getElementById('secret-message');
+            const counterDisplay = document.getElementById('progress-counter');
+            const actionButton = document.getElementById('action-btn');
+            const cardElement = document.getElementById('polaroid-card');
+
+            cardElement.classList.remove('flipped');
+            textDisplay.style.opacity = 0;
+            photoDisplay.style.opacity = 0;
+
+            setTimeout(() => {
+                textDisplay.innerText = activeData.message;
+                photoDisplay.src = activeData.photo;
+                captionDisplay.innerText = activeData.caption.toUpperCase();
+                secretDisplay.innerText = activeData.secretNote;
+                
+                const currentNum = String(activeIndex + 1).padStart(2, '0');
+                const totalNum = String(activeProfile.stream.length).padStart(2, '0');
+                counterDisplay.innerText = `${currentNum} / ${totalNum}`;
+
+                textDisplay.style.opacity = 1;
+                photoDisplay.style.opacity = 1;
+            }, 200);
+
+            if (activeIndex === activeProfile.stream.length - 1) {
+                actionButton.innerHTML = "Claim Birthday Gift &rarr;";
+            } else {
+                actionButton.innerHTML = "Next Greeting &rarr;";
+            }
+        }
+
+        function flipPolaroid() {
+            document.getElementById('polaroid-card').classList.toggle('flipped');
+        }
+
+        function advanceStream() {
+            // Once Nathem's card layout is finished, transition cleanly to the Prank Canvas setup
+            if (activeIndex === activeProfile.stream.length - 1) {
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('prank-screen').style.display = 'flex';
+                centerGiftBox();
+                return;
+            }
+            activeIndex++;
+            renderEntry();
+        }
+
+        function centerGiftBox() {
+            const box = document.getElementById('gift-box');
+            box.style.top = "50%";
+            box.style.left = "50%";
+            box.style.transform = "translate(-50%, -50%)";
+        }
+
+        // Handles the moving box logic loops
+        function handleBoxClick() {
+            boxClickCount++;
+            const box = document.getElementById('gift-box');
+
+            if (boxClickCount === 1) {
+                // Hop 1: Moves to a completely random spot on the screen
+                box.style.transform = "none"; 
+                box.style.top = Math.random() * (window.innerHeight - 150) + 50 + "px";
+                box.style.left = Math.random() * (window.innerWidth - 150) + 50 + "px";
+            } else if (boxClickCount === 2) {
+                // Hop 2: Moves away dynamically again
+                box.style.top = Math.random() * (window.innerHeight - 150) + 50 + "px";
+                box.style.left = Math.random() * (window.innerWidth - 150) + 50 + "px";
+            } else if (boxClickCount === 3) {
+                // Click 3: Gift box surrenders, hides instructions and reveals the stubborn confirmation modal box
+                box.style.display = 'none';
+                document.getElementById('prank-instruction').style.display = 'none';
+                
+                const promptBox = document.getElementById('dialog-prompt');
+                promptBox.style.display = 'flex';
+                document.getElementById('dialog-question').innerText = prankQuestions[currentPromptStep];
+            }
+        }
+
+        function processPrankChoice(isYes) {
+            const questionElement = document.getElementById('dialog-question');
+            
+            if (!isYes) {
+                // Prank loop handler: If she selects "No", mock her choices gently and keep her locked in the confirmation step loop
+                questionElement.innerText = "Wrong answer! Let's try that again. 😉 \n\n" + prankQuestions[currentPromptStep];
+                return;
+            }
+
+            // If she hits "Yes", advance down the step indices array
+            currentPromptStep++;
+
+            if (currentPromptStep < prankQuestions.length) {
+                // Update text layout chunk
+                questionElement.innerText = prankQuestions[currentPromptStep];
+            } else {
+                // Prank finishes! Shut down the overlay layer canvas maps and pull up the true surprise profile code frame
+                document.getElementById('prank-screen').style.display = 'none';
+                document.getElementById('gift-code').innerText = activeProfile.giftCode;
+                document.getElementById('reveal-screen').style.display = 'flex';
+                initConfettiEngine();
+            }
+        }
+
+        // ==========================================
+        // STANDARD LIGHTWEIGHT CONFETTI SIMULATOR ENGINE
+        // ==========================================
+        function initConfettiEngine() {
+            const canvas = document.getElementById("confetti-canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let pieces = [];
+            const numberOfPieces = 150;
+            const colors = ["#ff477e", "#ff7096", "#ffb5a7", "#fcd5ce", "#fff3b0", "#4ea8de"];
+
+            class ConfettiPiece {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height - canvas.height;
+                    this.rotation = Math.random() * 360;
+                    this.rotationSpeed = Math.random() * 4 - 2;
+                    this.size = Math.random() * 6 + 6;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.speedY = Math.random() * 3 + 2;
+                    this.speedX = Math.random() * 2 - 1;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.rotation += this.rotationSpeed;
+                }
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate((this.rotation * Math.PI) / 180);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < numberOfPieces; i++) {
+                pieces.push(new ConfettiPiece());
+            }
+
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach((piece) => {
+                    piece.update();
+                    piece.draw();
+                });
+                if (pieces.some(p => p.y < canvas.height)) {
+                    requestAnimationFrame(animateConfetti);
+                }
+            }
+            animateConfetti();
+        }
+
+        document.addEventListener("DOMContentLoaded", initializeView);
+    </script>
+</body>
+</html>
