@@ -13,14 +13,32 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #fcf8f8;
-            color: #1a1a1a;
+            background: radial-gradient(circle at center, #ffffff 0%, #cbd5e1 100%);
+            color: #0f172a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            width: 100vw;
             overflow: hidden;
             position: relative;
+            transition: background 1.5s ease;
+        }
+
+        /* MIDNIGHT TRANSITION BLACKOUT LAYER */
+        .blackout-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #090d16;
+            z-index: 99;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* SCREEN 0: WELCOME & AUDIO UNLOCK */
@@ -34,35 +52,36 @@
         }
 
         .welcome-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 300;
-            letter-spacing: 3px;
-            color: #2b2d42;
+            letter-spacing: 4px;
+            color: #1e293b;
             margin-bottom: 30px;
             text-transform: uppercase;
         }
 
         .enter-btn {
-            background: #111111;
+            background: #0f172a;
             color: #ffffff;
             border: none;
-            padding: 15px 40px;
-            font-size: 0.9rem;
+            padding: 16px 45px;
+            font-size: 0.95rem;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
-            border-radius: 4px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .enter-btn:hover {
-            background: #333333;
+            background: #334155;
             transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.25);
         }
 
-        /* SCREEN 1: COUNTDOWN & FANCY COLORFUL CAKE */
+        /* SCREEN 1: COUNTDOWN & LEVELED-UP 3D CAKE */
         .lock-screen {
             display: none; 
             flex-direction: column;
@@ -75,10 +94,10 @@
             animation: fadeIn 0.8s ease;
         }
 
-        /* Fancy Multi-Tier Colorful Cake */
+        /* VECTOR ISOMETRIC 3D CAKE */
         .cake-system {
             position: relative;
-            width: 260px;
+            width: 280px;
             height: 240px;
             margin-bottom: 40px;
             display: flex;
@@ -88,91 +107,91 @@
         }
 
         .cake-stand {
-            width: 260px;
-            height: 14px;
-            background: #e5989b;
-            border: 3px solid #6d5959;
-            border-radius: 20px;
+            width: 290px;
+            height: 16px;
+            background: linear-gradient(to bottom, #f1a7b4 0%, #e5989b 100%);
+            border: 3px solid #334155;
+            border-radius: 50% / 8px;
             position: absolute;
             bottom: 0;
-            box-shadow: 0 6px 0px rgba(0,0,0,0.05);
+            box-shadow: 0 8px 0px rgba(0,0,0,0.05), 0 10px 20px rgba(15, 23, 42, 0.08);
+            z-index: 5;
         }
 
         .tier-bottom {
-            width: 200px;
+            width: 220px;
             height: 80px;
-            background: #fff3b0; 
-            border: 3px solid #6d5959;
+            background: linear-gradient(to right, #edd382 0%, #fff3b0 25%, #fffdf0 50%, #fff3b0 75%, #edd382 100%); 
+            border: 3px solid #334155;
             border-bottom: none;
-            border-radius: 16px 16px 0 0;
+            border-radius: 24px 24px 0 0;
             position: absolute;
-            bottom: 14px;
+            bottom: 12px;
             overflow: hidden;
+            z-index: 2;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.04);
         }
 
         .piped-frosting {
             width: 100%;
             height: 22px;
-            background-image: radial-gradient(circle at 15px 0, transparent 13px, #6d5959 14px, #ffb5a7 15px);
+            background-image: radial-gradient(circle at 15px 0, transparent 11px, #334155 12px, #ffb5a7 13px);
             background-size: 30px 30px;
             position: absolute;
             top: 0;
         }
 
         .tier-top {
-            width: 130px;
+            width: 145px;
             height: 65px;
-            background: #fcd5ce; 
-            border: 3px solid #6d5959;
+            background: linear-gradient(to right, #fba396 0%, #fcd5ce 25%, #fff3f0 50%, #fcd5ce 75%, #fba396 100%); 
+            border: 3px solid #334155;
             border-bottom: none;
-            border-radius: 12px 12px 0 0;
+            border-radius: 18px 18px 0 0;
             position: absolute;
-            bottom: 94px;
+            bottom: 91px;
             overflow: hidden;
+            z-index: 3;
+            box-shadow: inset 0 -8px 15px rgba(0,0,0,0.04);
         }
 
         .fancy-candle {
-            width: 12px;
+            width: 14px;
             height: 50px;
-            background: repeating-linear-gradient(
-                45deg,
-                #e63946,
-                #e63946 6px,
-                #ffffff 6px,
-                #ffffff 12px
-            );
-            border: 3px solid #6d5959;
+            background: repeating-linear-gradient(45deg, #e63946, #e63946 6px, #ffffff 6px, #ffffff 12px);
+            border: 3px solid #334155;
             position: absolute;
-            bottom: 159px;
+            bottom: 154px;
             border-radius: 4px;
+            z-index: 4;
         }
 
         .candle-wick {
             width: 3px;
             height: 10px;
-            background: #6d5959;
+            background: #334155;
             position: absolute;
-            bottom: 209px;
+            bottom: 204px;
+            z-index: 4;
         }
 
         .fancy-flame {
             width: 22px;
             height: 32px;
-            background: radial-gradient(#ffdd00, #ff7b00);
+            background: radial-gradient(circle at center, #ffffff 10%, #ffea00 40%, #ff7b00 80%, rgba(255,123,0,0) 100%);
             border-radius: 50% 50% 20% 20%;
             position: absolute;
-            bottom: 219px;
-            box-shadow: 0 0 25px #ffb703, 0 0 10px #ffb703;
-            animation: elegantFlicker 0.5s infinite alternate;
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            bottom: 214px;
+            box-shadow: 0 0 35px #ffb703, 0 0 15px #ff7b00;
+            animation: elegantFlicker 0.5s infinite alternate ease-in-out;
+            z-index: 4;
         }
 
         @keyframes elegantFlicker {
             0% { transform: scale(1) rotate(-2deg); }
-            100% { transform: scale(1.18) rotate(3deg); }
+            100% { transform: scale(1.15) rotate(3deg); }
         }
 
-        /* Giant Typography Clock */
         .giant-clock-wrapper {
             display: flex;
             gap: 25px;
@@ -186,12 +205,11 @@
         }
 
         .time-number {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: 4.5rem;
             font-weight: 800;
             line-height: 1;
-            color: #2b2d42;
-            letter-spacing: -1px;
+            color: #0f172a;
+            letter-spacing: -2px;
         }
 
         .time-label {
@@ -199,7 +217,7 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: #8d99ae;
+            color: #64748b;
             margin-top: 10px;
             font-weight: bold;
         }
@@ -207,7 +225,7 @@
         .time-divider {
             font-size: 3.5rem;
             font-weight: 300;
-            color: #e0e0e0;
+            color: #94a3b8;
             line-height: 1;
         }
 
@@ -215,44 +233,58 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 5px;
-            color: #8d99ae;
+            color: #64748b;
             margin-bottom: 5px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        /* SCREEN 2: MAIN DESKTOP ARCHIVE CANVAS */
+        /* SCREEN 2: MAIN ADAPTIVE DESKTOP ARCHIVE CANVAS */
         .desktop-canvas {
             display: none; 
-            width: 900px;
-            height: 550px;
+            width: 92vw;
+            max-width: 1040px;
+            height: 80vh;
+            max-height: 600px;
             background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 35px 70px rgba(15, 23, 42, 0.08);
             align-items: center;
-            padding: 40px;
-            gap: 60px;
-            animation: fadeIn 1.5s ease;
+            padding: 45px;
+            gap: 45px;
+            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
         .polaroid-wrapper {
-            width: 45%;
-            perspective: 1000px;
+            width: 42%;
+            height: 100%;
+            perspective: 1500px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .polaroid-card {
-            width: 320px;
-            height: 380px;
+            width: 100%;
+            max-width: 340px;
+            height: 95%;
+            max-height: 400px;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+        }
+
+        .polaroid-card:hover {
+            transform: scale(1.02) rotate(0.5deg);
         }
 
         .polaroid-card.flipped {
             transform: rotateY(180deg);
+        }
+
+        .polaroid-card.no-flip {
+            cursor: default;
         }
 
         .polaroid-front, .polaroid-back {
@@ -261,147 +293,202 @@
             height: 100%;
             backface-visibility: hidden;
             background: #ffffff;
-            border: 1px solid #eaeaea;
-            border-radius: 2px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.04);
             box-sizing: border-box;
+            border: 1px solid rgba(15, 23, 42, 0.06);
         }
 
         .polaroid-front {
-            padding: 16px 16px 50px 16px;
-            transform: rotate(-1deg);
+            padding: 18px 18px 65px 18px;
+            transform: rotate(-1.5deg);
         }
 
         .polaroid-photo-space {
             width: 100%;
             height: 100%;
-            background: #fafafa;
+            background: #f1f5f9;
             overflow: hidden;
-            border: 1px solid #f0f0f0;
+            border-radius: 4px;
             display: flex;
             justify-content: center;
             align-items: center;
+            border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
-        .polaroid-photo-space img {
+        .polaroid-photo-space img, .polaroid-photo-space video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.3s ease;
+            display: none; 
         }
 
         .polaroid-caption {
             position: absolute;
-            bottom: 15px;
+            bottom: 20px;
             left: 0;
             width: 100%;
             text-align: center;
             font-family: "Courier New", Courier, monospace;
             font-size: 0.85rem;
-            color: #777;
+            color: #475569;
             font-weight: bold;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .polaroid-back {
             transform: rotateY(180deg);
-            padding: 30px 25px;
+            padding: 35px 25px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #fdfdfd;
-            background-image: radial-gradient(#e5e5e5 0.5px, transparent 0.5px), radial-gradient(#e5e5e5 0.5px, #fdfdfd 0.5px);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
+            background-color: #fafbfc;
+            background-image: radial-gradient(#94a3b8 0.7px, transparent 0.7px);
+            background-size: 16px 16px;
         }
 
         .secret-heading {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 0.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #aa8888;
-            margin-bottom: 15px;
+            letter-spacing: 3px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .secret-text {
             font-family: 'Georgia', serif;
             font-style: italic;
             font-size: 1.05rem;
-            line-height: 1.6;
-            color: #444;
+            line-height: 1.65;
+            color: #334155;
             text-align: center;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 5px;
+            width: 100%;
+        }
+
+        .secret-text::-webkit-scrollbar {
+            width: 4px;
+        }
+        .secret-text::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
         }
 
         .hint-text {
             position: absolute;
-            bottom: 12px;
+            bottom: 14px;
             font-size: 0.7rem;
-            color: #bbb;
-            letter-spacing: 0.5px;
+            color: #94a3b8;
+            letter-spacing: 1px;
             text-transform: uppercase;
+            font-weight: 500;
         }
 
         .content-panel {
-            width: 55%;
+            width: 58%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 20px 10px;
         }
 
         .meta-header h1 {
-            font-size: 1.8rem;
-            font-weight: 400;
+            font-size: 2.2rem;
+            font-weight: 300;
             letter-spacing: -0.5px;
             margin-bottom: 6px;
-            color: #111;
+            color: #0f172a;
         }
 
         .meta-header .date-stamp {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #888;
+            letter-spacing: 3px;
+            color: #64748b;
+            font-weight: bold;
         }
 
         .message-viewport {
-            min-height: 140px;
-            display: flex;
-            align-items: center;
-            margin: 30px 0;
+            flex-grow: 1;
+            margin: 15px 0;
+            overflow-y: auto; 
+            padding-right: 15px; 
         }
 
         p#sweet-message {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #333;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #334155;
             transition: opacity 0.2s ease;
             font-weight: 300;
+            white-space: pre-wrap; 
+        }
+
+        .message-viewport::-webkit-scrollbar {
+            width: 4px;
+        }
+        .message-viewport::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .message-viewport::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .message-viewport::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
 
         .navigation-dock {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #eeeeee;
+            border-top: 1px solid #e2e8f0;
             padding-top: 20px;
+        }
+
+        .nav-left-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .counter {
             font-size: 0.85rem;
-            color: #999;
+            color: #64748b;
             font-family: monospace;
+            font-weight: 600;
+        }
+
+        .back-link {
+            background: none;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            padding: 5px 0;
+            letter-spacing: 0.5px;
+            transition: color 0.2s ease;
+            display: none; 
+        }
+
+        .back-link:hover {
+            color: #0f172a;
         }
 
         .action-link {
             background: none;
             border: none;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: #111;
+            color: #0f172a;
             cursor: pointer;
             padding: 5px 0;
             letter-spacing: 0.5px;
@@ -414,12 +501,12 @@
             position: absolute;
             width: 100%;
             transform: scaleX(1);
-            height: 1px;
+            height: 1.5px;
             bottom: 0;
             left: 0;
-            background-color: #111;
+            background-color: #0f172a;
             transform-origin: bottom left;
-            transition: transform 0.25s ease-out;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .action-link:hover::after {
@@ -433,53 +520,54 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
             text-align: center;
             position: absolute;
             top: 0;
             left: 0;
-            background-color: #fcf8f8;
+            background: radial-gradient(circle at center, #ffffff 0%, #cbd5e1 100%);
             padding: 20px;
         }
 
         .prank-title {
             font-size: 1.6rem;
-            font-weight: 400;
-            letter-spacing: -0.5px;
+            font-weight: 300;
+            letter-spacing: 1px;
             margin-bottom: 40px;
-            color: #111;
+            color: #0f172a;
         }
 
         .gift-target-box {
-            font-size: 5rem;
+            font-size: 5.5rem;
             cursor: pointer;
             position: absolute;
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             user-select: none;
             display: inline-block;
             padding: 10px;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.1));
         }
 
         .dialog-container {
             display: none;
             background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-            border: 1px solid #eaeaea;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.1);
+            border: 1px solid rgba(0,0,0,0.02);
             max-width: 400px;
             width: 90%;
             flex-direction: column;
             align-items: center;
-            animation: dialogPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            animation: dialogPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
         }
 
         .dialog-text {
-            font-size: 1.05rem;
-            color: #222;
-            line-height: 1.6;
-            margin-bottom: 25px;
+            font-size: 1.1rem;
+            color: #1e293b;
+            line-height: 1.65;
+            margin-bottom: 30px;
             font-weight: 300;
         }
 
@@ -491,34 +579,37 @@
         }
 
         .dialog-btn {
-            background: #111111;
+            background: #0f172a;
             color: white;
             border: none;
-            padding: 10px 24px;
+            padding: 12px 28px;
             font-size: 0.9rem;
-            border-radius: 4px;
+            border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.2s ease;
-            min-width: 90px;
+            transition: all 0.2s ease;
+            min-width: 100px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
         }
 
         .dialog-btn:hover {
-            background: #333333;
+            background: #1e293b;
+            transform: translateY(-1px);
         }
 
         .dialog-btn.alt {
-            background: #fafafa;
-            color: #666;
-            border: 1px solid #ddd;
+            background: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            box-shadow: none;
         }
 
         .dialog-btn.alt:hover {
-            background: #f0f0f0;
-            color: #333;
+            background: #f8fafc;
+            color: #0f172a;
         }
 
-        /* SCREEN 4: THE FINAL REVEAL CANVAS MAP */
+        /* SCREEN 4: THE FINAL REVEAL CANVAS */
         .reveal-canvas {
             display: none;
             flex-direction: column;
@@ -529,32 +620,33 @@
         }
 
         .reveal-emoji {
-            font-size: 4rem;
+            font-size: 4.5rem;
             margin-bottom: 15px;
             animation: pulse 1s infinite alternate;
         }
 
         @keyframes pulse {
-            to { transform: scale(1.1); }
+            to { transform: scale(1.08); }
         }
 
         .gift-ticket {
-            border: 1px dashed #ccc;
-            padding: 18px 30px;
+            border: 1px dashed #cbd5e1;
+            padding: 22px 35px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-            margin-top: 15px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.04);
+            margin-top: 20px;
         }
 
         .ticket-label {
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #888;
+            letter-spacing: 3px;
+            color: #64748b;
+            font-weight: bold;
         }
 
         .ticket-code {
@@ -562,10 +654,18 @@
             font-size: 1.4rem;
             font-weight: bold;
             letter-spacing: 2px;
-            background: #111;
+            background: #0f172a;
             color: #fff;
-            padding: 6px 16px;
-            border-radius: 4px;
+            padding: 8px 22px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .midnight-cake-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(1.1);
         }
 
         #confetti-canvas {
@@ -577,21 +677,24 @@
             pointer-events: none;
             z-index: 101;
         }
-
-        @keyframes dialogPop {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
     </style>
 </head>
 <body>
 
     <audio id="birthday-song" loop src="birthday-song.mp3"></audio>
+
+    <div class="blackout-overlay" id="midnight-layer">
+        <div class="midnight-cake-box">
+            <div class="cake-system" style="margin-bottom: 0;">
+                <div class="fancy-flame" id="midnight-flame" style="bottom: 214px;"></div>
+                <div class="candle-wick" style="bottom: 204px; background: #64748b;"></div>
+                <div class="fancy-candle" style="bottom: 154px;"></div>
+                <div class="tier-top" style="bottom: 91px; background: linear-gradient(to right, #2c2222, #3a2d2d, #2c2222);"><div class="piped-frosting"></div></div>
+                <div class="tier-bottom" style="bottom: 12px; background: linear-gradient(to right, #332c22, #453c2f, #332c22);"><div class="piped-frosting"></div></div>
+                <div class="cake-stand" style="background: linear-gradient(to right, #2d1f21, #3d2a2c, #2d1f21);"></div>
+            </div>
+        </div>
+    </div>
 
     <div class="welcome-screen" id="welcome-screen">
         <div class="welcome-title">A Special Archive For Nay</div>
@@ -643,6 +746,7 @@
                 <div class="polaroid-front">
                     <div class="polaroid-photo-space">
                         <img id="display-photo" src="" alt="Birthday Memory Layout">
+                        <video id="display-video" loop muted playsinline></video>
                     </div>
                     <div id="polaroid-caption" class="polaroid-caption">TAP TO FLIP</div>
                 </div>
@@ -659,11 +763,14 @@
                 <div class="date-stamp">Special Edition</div>
                 <h1 id="celebrant-title">Happy Birthday</h1>
             </div>
-            <div class="message-viewport">
+            <div class="message-viewport" id="scroll-viewport">
                 <p id="sweet-message">Loading archive...</p>
             </div>
             <div class="navigation-dock" id="nav-dock">
-                <div class="counter" id="progress-counter">00 / 00</div>
+                <div class="nav-left-group">
+                    <button class="back-link" id="back-btn" onclick="regressStream()">&larr; Previous</button>
+                    <div class="counter" id="progress-counter">00 / 00</div>
+                </div>
                 <button class="action-link" id="action-btn" onclick="advanceStream()">Next Greeting &rarr;</button>
             </div>
         </div>
@@ -671,7 +778,7 @@
 
     <div class="prank-canvas" id="prank-screen">
         <h2 class="prank-title" id="prank-instruction">Click the gift box to claim your birthday surprise!</h2>
-        <div class="gift-target-box" id="gift-box" onclick="handleBoxClick()">🎁</div>
+        <div class="gift-box-target" id="gift-box" onclick="handleBoxClick()">🎁</div>
 
         <div class="dialog-container" id="dialog-prompt">
             <div class="dialog-text" id="dialog-question">Would you like to open your birthday gift box?</div>
@@ -695,127 +802,178 @@
     <canvas id="confetti-canvas"></canvas>
 
     <script>
-        // Target Timestamp locked to June 17, 2026 at 12:00 AM (Philippine Standard Time GMT+0800)
         const targetBirthdayPST = new Date("June 17, 2026 00:00:00 GMT+0800").getTime();
 
         const profiles = {
             nay: {
-                title: "For Nay.",
+                title: "TQTxJulsxAFK",
                 giftCode: "SPECIAL-SURPRISE-2026",
                 stream: [
                     {
-                        message: "Hello, Nay, etc., etc., etc., etc. from zxy",
+                        message: "Hello, Nay, so ayun bida bida ako...so first of all nay happy happiest happy born day sa aking naging ina, salamat nay sa lahat alam mo na yun wkwkwkwkwk dahil jan napag kaisahan naming isurprise ka nay sa maliit na bagay na ito lubos namin kinagagalak na nakilala ka namin and lalo na ako na mula december up until now is still kicking pa din ang pamilya kahit di man nagiging buo nandun pa din yung nag kakasama sama tayo, ang gusto namin ay happy ka hindi man matumbasan ang effort mo nay pero here we are memorable and pang habang bohaii mong mababalikan ang website na ito if may times na hindi na kami active sa rb and most of all maramdaman mo parin prescense namin happy happy 24th birthday nay the 2002 babies hope you appreciate our little effort",
                         caption: "From ZXY • (Tap to flip)",
                         photo: "zxy.png", 
                         secretNote: "Wishing you all the best for your future endeavor."
                     },
                     {
-                        message: "Type Savv's greeting message here...",
+                        message: "Happy birthday Nak Juls, ww May not playing much these days but always remember that I am always here for you. Anytime you needed to . ",
                         caption: "From Savv • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500", 
-                        secretNote: "Type Savv's secret note here..."
+                        photo: "savv.mp4", 
+                        secretNote: "Happy birthday and enjoy your day . Ily ."
                     },
                     {
-                        message: "Type Echidna's greeting message here...",
-                        caption: "From Echidna • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
-                        secretNote: "Type Echidna's secret note here..."
+                        message: "To my pinaka-maacm na Apo,\n\nI wish you a Happy Birthday. May this day bring you endless entertainment and enjoyment, but before you enjoy yourself with that I just wanna leave a message for you. I hate cheesy lines, and guess what? Those cheesy lines are only for your Mommy. Okay, going back to my message, Life was never easy for us living here in a freaking hellhole world. That’s why, as long as we’re breathing, we need to be kind, gentle, and also cling harder to the life that we were given. We’re not sure of what state we are in, actually, right? We don’t know if we’re in a good or a bad state in life, and what’s worse, all that pressure, stress, and negativity will always be with us, no matter how little our progress is; they’re always there. This message here is also for you, your Fam, and your Mommy. “Even if it’s hard and we’re struggling, we have to take a step; the smallest step is the start where the world begins to show you kindness.” As long as you guys are fighting and breathing, those problems will definitely follow, so stick with claiming positivity from someone and be a stronghold that will help them too. Anyways, I got a lot of things to say, but it’ll be a pain in the ass for those who read it. Once again, Happy Birthday, Juls!!",
+                        caption: "From Echidna",
+                        photo: "echidna.png",
+                        secretNote: ""
                     },
                     {
-                        message: "Type Raze's greeting message here...",
-                        caption: "From Raze • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
-                        secretNote: "Type Raze's secret note here..."
+                        message: "Holaaa to my Granddaughter, Juls\n\nFrom the moment you came into my life through your mother Nat, everything changed in the most beautiful way. You brought a kind of love that words can never fully describe to me, a love that grows deeper with every passing day. On your special day in this June 17, I want you to know how proud I am of you as my RB Granddaughter. I am proud of your kindness, your cuteness, your courage, and the beautiful heart to your mother. You have a way of bringing light into the lives of those around you now, and I hope you never forget how special and loved you truly are.\n‎\n‎Yk, Life will continue to bring both wonderful moments and difficult challenges, but always remember that you are stronger than you think, smarter than you know, and more capable than you can imagine. Believe in yourself as much as I believe in you. Chase your dreams fearlessly, follow your heart wisely, and never let anyone make you doubt your worth.\n\nHappy Birthday, my Granddaughter",
+                        caption: "From Quinn",
+                        photo: "quinn.png", 
+                        secretNote: "" 
                     },
                     {
-                        message: "Type Renzy's greeting message here...",
+                        message: "Happy Birthday deng! 🎉🎂\n\nOn your special day, I want to take a moment to celebrate not just another year of your life, but the wonderful person you are❤️. And I hope your doing okay kahit di na tayo naglalaro together Kasama mga anak natin I'm doing good Naman medyo busy lang ems, anyways just enjoy your day Kasi birthday mo Yan ehh alangan birthday ko😆jk diko na hahabaan tulad ng iba na para bang may +5 points direct sa grade😆 wishing you all the best HBD again at mabuhay ka hanggat gusto mo kung may problema ka man sa bohaii dagdagan pa natin Kasi Ako din Meron🤣MWAMWAAAA ❤️🎉",
                         caption: "From Renzy • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
-                        secretNote: "Type Renzy's secret note here..."
+                        photo: "renzy.png",
+                        secretNote: "Thank you for the laughter, the memories, and sa mga times na magkakasama tayo. May this year bring you happiness, success, good health, and everything your heart desires. Enjoy your special day you deserve the very best! Habaduuuuu🎉❤️"
                     },
                     {
-                        message: "Type Biggy's greeting message here...",
+                        message: "Happy birthday, dear sister! May your special day be as beautiful and extraordinary as you are. You deserve all the happiness and love in the world.",
                         caption: "From Biggy • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
-                        secretNote: "Type Biggy's secret note here..."
+                        photo: "biggy.png",
+                        secretNote: "penge pancit canton hehe."
                     },
                     {
-                        message: "Type Avocad's greeting message here...",
-                        caption: "From Avocad • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
-                        secretNote: "Type Avocad's secret note here..."
+                        message: "Happy Birthday, Sis! Wishing you lots of happiness, good health, and blessings. Enjoy your day and have fun, you deserve it! Love you always.",
+                        caption: "From Avocad",
+                        photo: "avocad.png",
+                        secretNote: ""
                     },
                     {
-                        message: "Type Tenie's greeting message here...",
-                        caption: "From Tenie • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
-                        secretNote: "Type Tenie's secret note here..."
+                        message: `Happy Birthday, Ate Juls! 
+Wishing you good health, happiness, and more blessings sa buhay. Thank you for being such a kind and amazing person. Sana lahat ng goals and dreams mo ay unti-unting matupad this year.
+At Ate, huwag kang mag-alala sa age mo remember, you're not getting older, you're just becoming more premium! 
+Enjoy your special day, eat lots of cake, and make beautiful memories with the people you love.
+Happy Birthday, Ate Juls! Stay happy, healthy, and always keep smiling. ️
+
+FROM YOUR POGI NA KAPATED JAT`,
+                        caption: "From Jat",
+                        photo: "jatt.png",
+                        secretNote: ""
                     },
                     {
-                        message: "Type Lia's greeting message here...",
-                        caption: "From Lia • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
-                        secretNote: "Type Lia's secret note here..."
+                        message: "happiest birthdayy ate kong apaka acm!! don't expect na mahaba ang birthday report ko. bago lang ako sa fam pero feel ko na welcomed talaga ako bilang kapitbahay. always mag iingat nang marami pang birthday ang dumaan. and last wag kalimulan enjoyin ang birthday. laging tatandaan maacm man ako pero mas maacm ka. happy birthday again tid acm!\n-feitan",
+                        caption: "From Feitan",
+                        photo: "feitan.png",
+                        secretNote: ""
                     },
                     {
-                        message: "Type Zelduh's greeting message here...",
-                        caption: "From Zelduh • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
-                        secretNote: "Type Zelduh's secret note here..."
+                        message: `I want to wish the happiest of birthdays to my name twinny, ate Juls!
+
+Thank you for accepting me as your sister, and of course, for welcoming me as the "bunso" in our fam. I hope this new chapter treats you well, and may the new chapter be filled with love, kindness, and memories. Luvya sissss, mwaa!`,
+                        caption: "From Yana • (Tap to flip)",
+                        photo: "yana.png",
+                        secretNote: `I wish you this new chapter of your life be filled with a warm welcome, abundant happiness, and of course - unconditional love & cheerful memories.
+
+-- Love, Yana 💜`
                     },
                     {
-                        message: "Type Ron's greeting message here...",
-                        caption: "From Ron • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
-                        secretNote: "Type Ron's secret note here..."
+                        message: `Happy birthday ate ko juls!!! Unang-una sa lahat nagpapasalamat ako sa part na nakilala kita, hindi nako ganong online pero dko kayo nakakalimutan dahil nagbigay parte ka/kayo sa buhay ko 🫶🏻 simple message lng gagawin ko ate hehe, Ingat ka always dyan and enjoy your day lng ate alr? Dedma sa bashers dapat mwehehehe. I love you ateee and I miss you so so muchhhh. Happiest birthday ate 🥳🫶`,
+                        caption: "From Tenie",
+                        photo: "tenie.png",
+                        secretNote: ""
                     },
                     {
-                        message: "Type Elle's greeting message here...",
+                        message: "HAPPIEST BEERDAY, BABEBELAT HOPE UR DAY IS FILLED WITH EVERYTHING UR HEART DESIRES! MORE CHEEZEMAZE TO COME. ENJOY UR DAY, MBTC MWAPS! 💋",
+                        caption: "From LIA",
+                        photo: "lia.png",
+                        secretNote: "" 
+                    },
+                    {
+                        message: "Happy Birthday Julssssss, sana yung araw na to ay mapuno ng blessing para sayo, lagi ka kase nag bibigay ng blessing sa akin at sa iba... Naalala ko pa yung first meet natin niloko moko hahahaha hauffff you know me ur ate is so very hopeless romantic charizzzzz, I'll be forever be happy na kapatid kita sa Roblox, I love you sissy mwaaaaaa",
+                        caption: "From Zelduh",
+                        photo: "zelduh.png",
+                        secretNote: "" 
+                    },
+                    {
+                        message: "Hello bebe Julz , Happy Happy Birthday bebe julz namin 😇 Always Take care kahit d tayo iniingatan charot 😆 wish ko sayo good health and more moneys to come kahit wag na muna lovelife pera at peacemind na muna 😇yun lang wabyou much mwua mwa \n\n-From ate Cinn mong masherap",
+                        caption: "From Cinnamon",
+                        photo: "cinn.png",
+                        secretNote: "" 
+                    },
+                    {
+                        message: "Happy Birthday! May this new chapter bring you good health, bright moments, and success in everything you do.",
+                        caption: "From Ron",
+                        photo: "ron.png",
+                        secretNote: ""
+                    },
+                    {
+                        message: "Hi, beb. Happy birthday. I hope you are happy for the things that we did to make your birthday special. I'm glad that I met someone like you with whom I can talk and laugh about random things; even though I'm not always there when you're feeling down, please remember that you have a friend to whom you can turn. May life be gentle with you and fill your year with happiness and blessings. Happy birthday again, beb.",
                         caption: "From Elle • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
-                        secretNote: "Type Elle's secret note here..."
+                        photo: "elle.png",
+                        secretNote: "Always remember you are loved, you are valued, and you are important. I love you, beb. Enjoy your birthday❤️😘"
                     },
                     {
-                        message: "Type Sai's greeting message here...",
+                        message: "Hi beb juls! I just want to tell you  a happy happy birthday 🎂🥳",
                         caption: "From Sai • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
-                        secretNote: "Type Sai's secret note here..."
+                        photo: "sai.png",
+                        secretNote: "Wishing you a day filled with love, laughter and all the things that bring you joy,you deserve all the beautiful moments this world has offer."
                     },
                     {
-                        message: "Type Miles's greeting message here...",
+                        message: "Hello mamii happy birthday po. I'm so grateful na nakilala kita. To be honest, when we first met, I thought our story would end just like the others before. I never expected you to stay, but you did. \nYou made my Roblox life brighter, happier, and more meaningful. Thank you for all the love, care, and support you have given me. You always had a way of making me feel seen, appreciated, and loved.\nNaalala mo po ba mii nong nalaman mong may dad na ako? I was so scared and thought you would get mad at me. But instead of leaving, you stayed and even chose to co-parent. That moment showed me how kind and understanding you truly are, and I will always be thankful for that.\nOn your special day, I just want you to know mamii how much you mean to me. I hope life gives back all the love and kindness that you freely give to others. I hope today brings you happiness, peace, and countless reasons to smile.\nAnd no matter what challenges come your way, please remember that you are loved and appreciated more than you know.",
                         caption: "From Miles • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
-                        secretNote: "Type Miles's secret note here..."
+                        photo: "miles.png",
+                        secretNote: "Stay strong, Mamii, and never lose the beautiful heart that makes so many people care about you. Fighting always love love pinaka ka pretty na nakshii miles churr."
                     },
                     {
-                        message: "Type Tiney's greeting message here...",
+                        message: "To my one and only rb mami—one of the most generous and supportive souls I know—I want to wish you the happiest of birthdays!\n\nWords are not enough to express how incredibly grateful I am to have you in my life. I will always fondly remember how you warmly accepted me as the \"bunso,\" even though I am slightly older than Miles. I am deeply thankful for the love and kindness you showed me from the very start, unconditionally embracing me as your own even though I wasn't able to see you during those first few days.\n\nPlaying together as a family has truly been the best. Every game we play, every laugh we share, the chismis, and the beautiful chaos we navigate together will forever be engraved in my heart. Thank you for always making me feel so welcome every time I join you. Hearing your sweet \"Hi nak!\" or \"Hi babyyy, imisssyouu\" never fails to make my heart flutter, knowing that you still greet me with that same genuine excitement as before. \n\nMost of all, thank you for believing in me when I doubt myself. Thank you for your constant support, your wise advice, and for reminding me that I am never alone in my battles. Knowing you are right there with me when everything feels heavy means the world to me.\n\nOnce again, happy, happy birthday! I love you so much po!",
                         caption: "From Tiney • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
-                        secretNote: "Type Tiney's secret note here..."
+                        photo: "tiney.png",
+                        secretNote: "I wish that all your heart's desires come true, and may this new chapter of your life bring you abundant happiness, good health, and well-deserved rest. I hope you are showered with the same warmth and unconditional love you have always given us, because you truly deserve it all, mii."
                     },
                     {
-                        message: "Type Sash's greeting message here...",
-                        caption: "From Sash • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
-                        secretNote: "Type Sash's secret note here..."
+                        message: "I wish you a best Happy Birthday ever,\nI hope you enjoy every second of this day and Be with your family, friend and us, \nWe know ur always there helping us I wanna thankyou for that, May your kindness brings moree blessing to you and I Hope our family-friendship neverr ends, Once again Happy Birthday la! 🎂",
+                        caption: "From Takopi • (Tap to flip)",
+                        photo: "takopi.png",
+                        secretNote: "Wishing youu more blessing, luck, lovess,friends, and more more moneyy to youu HAHAHAHA"
                     },
                     {
-                        message: "Type Celes's greeting message here...",
-                        caption: "From Celes • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
-                        secretNote: "Type Celes's secret note here..."
+                        message: "Hi mommy la, wishing you all the happiness in the world, hope you find what you are looking for, and hope you live with no regrets. I guess everything happens for a reason and you had to live with that live, love, laugh. Enjoy your day po , happy birthday mommy la iloveyou po 🥳❤️",
+                        caption: "From Vii",
+                        photo: "vii.png",
+                        secretNote: "" 
                     },
                     {
-                        message: "Type Yel's greeting message here...",
-                        caption: "From Yel • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
-                        secretNote: "Type Yel's secret note here..."
+                        message: "Happy birthday, Juls! Hope you have the best day ever! Ingat ka palagi, God bless. Let's play soon ♥️♥️♥️",
+                        caption: "From Zey",
+                        photo: "Zey.png",
+                        secretNote: ""
                     },
                     {
-                        message: "Type Star's greeting message here...",
-                        caption: "From Star • (Tap to flip)",
-                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
-                        secretNote: "Type Star's secret note here..."
+                        message: "Happy birthday ate juls another yr, another katarantaduhan, don't worry about getting older age it's just a number emee eto seryoso na wishing you a good health and happiness mabuhay ka hanggat gusto mo.\n\n-Celes",
+                        caption: "From Celes",
+                        photo: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500", 
+                        secretNote: "" 
+                    },
+                    {
+                        message: "Hello apo juls happy happy birthday apo ko, I hope your day is filled with lot's of love and laughter, may all of your birthday wishes come true I wab u apo ko take care always 🎂🎊🎈\n\n-Mamila Yel",
+                        caption: "From Yel",
+                        photo: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500", 
+                        secretNote: "" 
+                    },
+                    {
+                        message: "HABADU PO TATA JULS! FROM YOUR CUTEST PAMANGKIN STAR/AYA. I wish you all the best tata, thank u po for existing, long live tata 💗❤️",
+                        caption: "From Star",
+                        photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500", 
+                        secretNote: "" 
+                    },
+                    {
+                        message: "Happiest Birthday jol. i know it might be another normal day nanaman para sayo but just know na andito kami, you can celebrate din with us. i hope na magiging masaya ka ngayon with your fam, friends, and ofc kami. again happiest birthday jol, wag kalimutan maligo",
+                        caption: "From Raze",
+                        photo: "raze.png",
+                        secretNote: ""
                     },
                     {
                         message: "Happy Birthday from Nathem! Hope you have an awesome celebration and an amazing year ahead.",
@@ -831,6 +989,7 @@
         let activeIndex = 0;
         let boxClickCount = 0;
         let currentPromptStep = 0;
+        let countdownTicker;
 
         const prankQuestions = [
             "Would you like to open your birthday gift box? 🎁",
@@ -841,20 +1000,55 @@
         ];
 
         function startExperience() {
-            document.getElementById("welcome-screen").style.display = "none";
-            
-            const song = document.getElementById("birthday-song");
-            song.play().catch(e => console.log("Audio track initialized."));
-
             const nowCheck = new Date().getTime();
+
             if (nowCheck >= targetBirthdayPST) {
-                document.getElementById("main-content").style.display = "flex";
-                loadGreetings();
+                document.getElementById("welcome-screen").style.display = "none";
+                const midnightOverlay = document.getElementById("midnight-layer");
+                midnightOverlay.style.display = "flex";
+
+                setTimeout(() => {
+                    document.getElementById("midnight-flame").style.opacity = "0";
+
+                    setTimeout(() => {
+                        const song = document.getElementById("birthday-song");
+                        song.play().catch(e => console.log("Audio sync unlocked."));
+
+                        midnightOverlay.style.opacity = "0";
+                        setTimeout(() => {
+                            midnightOverlay.style.display = "none";
+                            document.getElementById("main-content").style.display = "flex";
+                            loadGreetings();
+                        }, 2000);
+                    }, 1500);
+                }, 2000);
+
             } else {
+                document.getElementById("welcome-screen").style.display = "none";
                 document.getElementById("lock-screen").style.display = "flex";
+                
+                const song = document.getElementById("birthday-song");
+                song.play().catch(e => console.log("Audio track initialized."));
+                
                 runClockManager();
             }
         }
+
+        // HIDDEN MANAGER COMBINATION: Ctrl + Shift + m
+        window.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'm') {
+                clearInterval(countdownTicker);
+                document.getElementById("welcome-screen").style.display = "none";
+                document.getElementById("lock-screen").style.display = "none";
+                document.getElementById("midnight-layer").style.display = "none";
+                document.getElementById("main-content").style.display = "flex";
+                
+                const song = document.getElementById("birthday-song");
+                song.play().catch(e => console.log("Early manager access authorized."));
+                
+                loadGreetings();
+            }
+        });
 
         function runClockManager() {
             countdownTicker = setInterval(() => {
@@ -880,12 +1074,27 @@
 
         function executeBlowoutSequence() {
             document.getElementById("candle-flame").style.opacity = "0";
-
             setTimeout(() => {
                 document.getElementById("lock-screen").style.display = "none";
-                document.getElementById("main-content").style.display = "flex";
-                loadGreetings();
-            }, 1800);
+                const midnightOverlay = document.getElementById("midnight-layer");
+                midnightOverlay.style.display = "flex";
+
+                setTimeout(() => {
+                    document.getElementById("midnight-flame").style.opacity = "0";
+
+                    setTimeout(() => {
+                        const song = document.getElementById("birthday-song");
+                        song.play().catch(e => console.log("Audio sync unlocked."));
+
+                        midnightOverlay.style.opacity = "0";
+                        setTimeout(() => {
+                            midnightOverlay.style.display = "none";
+                            document.getElementById("main-content").style.display = "flex";
+                            loadGreetings();
+                        }, 2000);
+                    }, 1500);
+                }, 2000);
+            }, 800);
         }
 
         function loadGreetings() {
@@ -898,28 +1107,60 @@
             const activeData = activeProfile.stream[activeIndex];
             const textDisplay = document.getElementById('sweet-message');
             const photoDisplay = document.getElementById('display-photo');
+            const videoDisplay = document.getElementById('display-video');
             const captionDisplay = document.getElementById('polaroid-caption');
             const secretDisplay = document.getElementById('secret-message');
             const counterDisplay = document.getElementById('progress-counter');
             const actionButton = document.getElementById('action-btn');
+            const backButton = document.getElementById('back-btn');
             const cardElement = document.getElementById('polaroid-card');
+            const scrollViewport = document.getElementById('scroll-viewport');
 
             cardElement.classList.remove('flipped');
+            cardElement.classList.remove('no-flip');
             textDisplay.style.opacity = 0;
             photoDisplay.style.opacity = 0;
+            videoDisplay.style.opacity = 0;
+
+            videoDisplay.pause();
 
             setTimeout(() => {
                 textDisplay.innerText = activeData.message;
-                photoDisplay.src = activeData.photo;
-                captionDisplay.innerText = activeData.caption.toUpperCase();
                 secretDisplay.innerText = activeData.secretNote;
+
+                scrollViewport.scrollTop = 0;
+                document.getElementById('secret-message').scrollTop = 0;
+
+                if (activeData.secretNote === "") {
+                    cardElement.classList.add('no-flip'); 
+                    captionDisplay.innerText = activeData.caption.toUpperCase();
+                } else {
+                    captionDisplay.innerText = activeData.caption.toUpperCase();
+                }
+
+                if (activeData.photo.toLowerCase().endsWith('.mp4')) {
+                    photoDisplay.style.display = 'none';
+                    videoDisplay.src = activeData.photo;
+                    videoDisplay.style.display = 'block';
+                    videoDisplay.style.opacity = 1;
+                    videoDisplay.play().catch(err => console.log("Video playback sync checked."));
+                } else {
+                    videoDisplay.style.display = 'none';
+                    photoDisplay.src = activeData.photo;
+                    photoDisplay.style.display = 'block';
+                    photoDisplay.style.opacity = 1;
+                }
                 
                 const currentNum = String(activeIndex + 1).padStart(2, '0');
                 const totalNum = String(activeProfile.stream.length).padStart(2, '0');
                 counterDisplay.innerText = `${currentNum} / ${totalNum}`;
-
                 textDisplay.style.opacity = 1;
-                photoDisplay.style.opacity = 1;
+
+                if (activeIndex === 0) {
+                    backButton.style.display = 'none';
+                } else {
+                    backButton.style.display = 'inline-block';
+                }
             }, 200);
 
             if (activeIndex === activeProfile.stream.length - 1) {
@@ -930,11 +1171,13 @@
         }
 
         function flipPolaroid() {
+            if (activeProfile.stream[activeIndex].secretNote === "") return;
             document.getElementById('polaroid-card').classList.toggle('flipped');
         }
 
         function advanceStream() {
             if (activeIndex === activeProfile.stream.length - 1) {
+                document.getElementById('display-video').pause();
                 document.getElementById('main-content').style.display = 'none';
                 document.getElementById('prank-screen').style.display = 'flex';
                 centerGiftBox();
@@ -942,6 +1185,13 @@
             }
             activeIndex++;
             renderEntry();
+        }
+
+        function regressStream() {
+            if (activeIndex > 0) {
+                activeIndex--;
+                renderEntry();
+            }
         }
 
         function centerGiftBox() {
@@ -989,9 +1239,6 @@
             }
         }
 
-        // ==========================================
-        // CONFETTI SIMULATOR ENGINE
-        // ==========================================
         function initConfettiEngine() {
             const canvas = document.getElementById("confetti-canvas");
             const ctx = canvas.getContext("2d");
@@ -1044,6 +1291,8 @@
             }
             animateConfetti();
         }
+
+        document.addEventListener("DOMContentLoaded", startExperience);
     </script>
 </body>
 </html>
